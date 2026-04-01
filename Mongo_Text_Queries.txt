@@ -1,0 +1,166 @@
+------------------ DATABASE --------------------
+
+1. show dbs
+   (all databases show karta hai)
+
+2. use rays
+   (database create/select karta hai)
+
+3. db.dropDatabase()
+   (database delete karta hai)
+
+------------------------------------------------
+
+------------------ COLLECTION ------------------
+
+1. db.createCollection("employee")
+   (collection create karta hai)
+
+2. show collections
+   (all collections show karta hai)
+
+3. db.employee.drop()
+   (collection delete karta hai)
+
+------------------------------------------------
+
+------------------ INSERT ----------------------
+
+1. db.employee.insertOne({id:1, name:"Ram", company:"TCS", salary:45000})
+   (single record insert karta hai)
+
+2. db.employee.insertMany([
+   {id:2, name:"Shyam", company:"Infosys", salary:50000},
+   {id:3, name:"Amit", company:"Wipro", salary:48000}
+])
+   (multiple records insert karta hai)
+
+------------------------------------------------
+
+------------------ SELECT ----------------------
+
+1. db.employee.find()
+   (all records show karta hai)
+
+2. db.employee.find({name:"Ram"})
+   (exact search)
+
+3. db.employee.find({salary:{$gt:50000}})
+   (salary > 50000)
+
+4. db.employee.find({salary:{$gte:50000}})
+   (salary >= 50000)
+
+------------------------------------------------
+
+------------------ SEARCHING ------------------
+
+1. db.employee.find({name:/^R/})
+   (name starts with R)
+
+2. db.employee.find({name:/m$/})
+   (name ends with m)
+
+3. db.employee.find({name:/a/})
+   (name contains 'a')
+
+------------------------------------------------
+
+------------------ SORTING ------------------
+
+1. db.employee.find().sort({salary:1})
+   (ascending order)
+
+2. db.employee.find().sort({salary:-1})
+   (descending order)
+
+------------------------------------------------
+
+------------------ PAGINATION ------------------
+
+1. db.employee.find().limit(5)
+   (first 5 records)
+
+2. db.employee.find().skip(5).limit(5)
+   (pagination – next 5 records)
+
+------------------------------------------------
+
+------------------ UPDATE ------------------
+
+1. db.employee.updateOne(
+   {id:1},
+   {$set:{name:"Shyam"}}
+)
+   (single record update karta hai)
+
+2. db.employee.updateMany(
+   {company:"TCS"},
+   {$set:{salary:60000}}
+)
+   (multiple records update karta hai)
+
+------------------------------------------------
+
+------------------ DELETE ------------------
+
+1. db.employee.deleteOne({id:1})
+   (single record delete karta hai)
+
+2. db.employee.deleteMany({salary:{$lt:50000}})
+   (condition based delete karta hai)
+
+------------------------------------------------
+
+------------------ AGGREGATE FUNCTIONS ------------------
+
+1. db.employee.countDocuments()
+   (total records count)
+
+2. db.employee.aggregate([
+   {$group:{_id:"$company", totalSalary:{$sum:"$salary"}}}
+])
+   (company wise total salary)
+
+3. db.employee.aggregate([
+   {$group:{_id:null, avgSalary:{$avg:"$salary"}}}
+])
+   (average salary)
+
+4. db.employee.aggregate([
+   {$group:{_id:null, minSalary:{$min:"$salary"}}}
+])
+   (minimum salary)
+
+5. db.employee.aggregate([
+   {$group:{_id:null, maxSalary:{$max:"$salary"}}}
+])
+   (maximum salary)
+
+------------------------------------------------
+
+------------------ JOIN (LOOKUP) ------------------
+
+1. db.employee.aggregate([
+   {
+     $lookup:{
+       from:"department",
+       localField:"dept_id",
+       foreignField:"id",
+       as:"dept"
+     }
+   }
+])
+   (join operation – MongoDB style)
+
+------------------------------------------------
+
+------------------ EXTRA ------------------
+
+1. db.employee.find().pretty()
+   (data ko readable format me dikhata hai)
+
+2. db.employee.findOne()
+   (sirf ek record show karta hai)
+
+------------------------------------------------
